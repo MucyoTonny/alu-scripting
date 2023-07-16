@@ -1,18 +1,20 @@
 #!/usr/bin/python3
-"""DOCS"""
+""" This module returns the top ten hot posts for a subreddit"""
 import requests
 
 
 def top_ten(subreddit):
-    """Docs"""
-    reddit_url = "https://www.reddit.com/r/{}/hot.json" \
-        .format(subreddit)
-    headers = headers = {'User-agent': 'Mozilla/5.0'}
-    response = requests.get(reddit_url, headers=headers)
-
+    BASE_URL = 'https://www.reddit.com/r/{}.json'.format(subreddit)
+    headers = {'User-Agent': 'Didas Junior'}
+    response = requests.get(BASE_URL, headers=headers)
     if response.status_code == 200:
-        data = response.json()['data']
-        for post in data['children'][:10]:
-            print(post['data']['title'])
+        result = response.json()
+        data = result.get('data').get('children')
+        titleArray = []
+        for item in data:
+            title = item.get('data').get('title')
+            titleArray.append(title)
+        for i in range(10):
+            print(titleArray[i])
     else:
-         print(None)
+        print(None)
